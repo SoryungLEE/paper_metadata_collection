@@ -763,7 +763,8 @@ def _summary_metrics_common(final_csv_path: str):
     # metrics에서 ror_enriched가 제공되면, 기관정보 보완 수로 우선 사용
     if ror_enriched_sum is not None:
         try:
-            inst_recovered = int(ror_enriched_sum)
+            # inst_recovered = int(ror_enriched_sum) #100%가 넘어서 아래 코드로 바꿈
+            inst_recovered = min(int(ror_enriched_sum), inst_missing)
         except Exception:
             pass
 
@@ -1256,4 +1257,5 @@ def app():
 
 if __name__ == "__main__":
     app()
+
 
