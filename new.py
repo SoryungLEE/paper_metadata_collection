@@ -403,13 +403,16 @@ def build_summary_from_metrics_for_final(final_csv_path: str, out_csv_path=None)
     #    - ROR ID 보강 수(합산)   = 보강된 문헌 수
     #    - 분모 (ROR ID 결측 + 보강) = 최초 결측 수(inst_missing)
     tot["ror_missing"]  = max(0, inst_missing - inst_recovered)  # after 기준
-    tot["ror_enriched"] = max(0, inst_recovered)
+    tot["ror_enriched"] = min(inst_recovered, inst_missing)
+    # tot["ror_enriched"] = max(0, inst_recovered) #100%가 넘어서 위의 코드로 수정
 
     doi_denom = _ival(tot["doi_missing"]) + _ival(tot["doi_enriched"])
-    ror_denom = _ival(tot["ror_missing"]) + _ival(tot["ror_enriched"])
+    ror_denom = inst_missing
+    # ror_denom = _ival(tot["ror_missing"]) + _ival(tot["ror_enriched"])
 
     doi_rate = f"{(100.0*_ival(tot['doi_enriched'])/doi_denom):.2f}%" if doi_denom else "0.00%"
     ror_rate = f"{(100.0*_ival(tot['ror_enriched'])/ror_denom):.2f}%" if ror_denom else "0.00%"
+    # ror_rate = f"{(100.0*_ival(tot['ror_enriched'])/ror_denom):.2f}%" if ror_denom else "0.00%"
 
     # 최초/최종 분리: json_rows 우선, 없으면 total_collected 폴백
     _first_rows = _ival(tot.get("json_rows", None))
@@ -1483,4 +1486,5 @@ if __name__ == "__main__":
         include_only_with_abstract=False,
         make_html=False
     )
+
     print("FINAL:", out_csv)
