@@ -951,7 +951,7 @@ def sidebar_controls():
     year_start = year_col1.number_input("시작 연도", value=2015, step=1)
     year_end = year_col2.number_input("종료 연도", value=2024, step=1)
 
-    email = st.sidebar.text_input("OpenAlex 이메일", value="s0124kw@gmail.com")
+    email = st.sidebar.text_input("OpenAlex 이메일", value="newcave@gmail.com")
     run_btn = st.sidebar.button("🚀 파이프라인 실행", width="stretch")
     return issns, int(year_start), int(year_end), email, run_btn
 
@@ -1256,3 +1256,4 @@ def app():
 
 if __name__ == "__main__":
     app()
+
